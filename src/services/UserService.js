@@ -2,7 +2,7 @@ import { api } from '@/services/api.js'
 
 export default {
   register(credentials) {
-    return api('/user', {
+    return api('/users', {
       method: 'POST',
       body: JSON.stringify(credentials)
     })
@@ -14,6 +14,6 @@ export default {
     })
   },
   user() {
-    return api('/user')
+    return api('/users')
   }
 }
