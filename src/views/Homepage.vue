@@ -31,12 +31,21 @@ export default {
             itemsPerPage: 4,
             title: '',
         };
-        this.films = await FilmService.getLastMovie(variables);
+        const response = await FilmService.getLastMovie(variables);
+
+        // Vérifiez s'il y a des erreurs dans la réponse GraphQL
+        if (response.errors) {
+            console.error("GraphQL Error Response:", response.errors);
+        } else if (response.data && response.data.movies && response.data.movies.collection) {
+            this.films = response.data.movies.collection;
             console.log("GraphQL Response:", this.films);
-        } catch (error) {
-            console.error("Error fetching data:", error);
+        } else {
+            console.error("GraphQL Response is missing expected structure:", response);
         }
+    } catch (error) {
+        console.error("Error fetching data:", error);
     }
+}
 
 },
 created(){

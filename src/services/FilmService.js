@@ -39,7 +39,7 @@ export default {
                 name
               }
             }
-            media_object{
+            mediaObject{
               collection{
                   contentUrl
               }
@@ -53,6 +53,7 @@ export default {
             }
           }
         }
+      }
     `;
 
     return api('/graphql', {
