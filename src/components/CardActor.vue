@@ -10,7 +10,7 @@ export default {
 <template>
         <li class="actor card">
             <p class="name">
-                {{ actor.firstname }}{{ actor.lastname }}
+                {{ actor.firstname }} {{ actor.lastname }}
                 <br>
             </p>
             <dl>

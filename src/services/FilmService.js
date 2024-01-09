@@ -2,18 +2,18 @@ import { api } from '@/services/api.js';
 import { useSession } from "@/stores/session";
 
 export default {
-  search(title, page, nbItem) {
-    return api(`/movies/search?page=${page}&title=${title}`, {
-      method: 'GET'
-    })
+  // search(title, page, nbItem) {
+  //   return api(`/movies/search?page=${page}&title=${title}`, {
+  //     method: 'GET'
+  //   })
 
-  },
-  getAll(page) {
-    return api(`/movies/?page=${page}`, {
-      method: 'GET'
-    })
+  // },
+  // getAll(page) {
+  //   return api(`/movies/?page=${page}`, {
+  //     method: 'GET'
+  //   })
 
-  },
+  // },
   async getMovies(variables) {
     const query = `
     query movies($page: Int, $itemsPerPage: Int, $title: String){
