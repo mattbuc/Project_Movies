@@ -9,7 +9,7 @@ export default {
 
 <template>
         <li class="film card">
-            <img class="poster" :src="film.poster" />
+            <img class="poster" :src="film.mediaObject" />
             <p class="title">
                 {{ film.title }}
                 <br>
