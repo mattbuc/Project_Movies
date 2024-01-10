@@ -2,6 +2,16 @@
 
 export default {
         props: ["actor", "actorDetail"],
+        methods: {
+        getMediaContentUrl(mediaObject) {
+        // Assurez-vous que la propriété 'collection' existe et n'est pas vide
+        if (mediaObject && mediaObject.collection && mediaObject.collection.length > 0) {
+                    console.log("erreur : ",mediaObject.collection);
+            return "http://localhost:8088/WR506D/"+ mediaObject.collection[0].contentUrl;
+
+        }
+        },
+    },
 
 };
 
@@ -9,6 +19,7 @@ export default {
 
 <template>
         <li class="actor card">
+        <img class="poster" :src="getMediaContentUrl(actor.mediaObject)" />
             <p class="name">
                 {{ actor.firstname }} {{ actor.lastname }}
                 <br>
@@ -35,6 +46,11 @@ export default {
         border: 1px solid #ccc;
         border-radius: 5px;
         box-shadow: 0 0 5px #ccc;
+    }
+
+        .actor .poster {
+        width: 100%;
+        height: auto;
     }
 
     .actor .name {

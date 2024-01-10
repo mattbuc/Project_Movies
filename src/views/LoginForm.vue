@@ -20,7 +20,7 @@ export default {
                 const response = await UserService.login({ username: this.email, password: this.password })
                 const session = useSession();
                 session.login({ user: response.user, token: response.token });
-                this.$router.push('/movie')
+                this.$router.push('/')
             } catch (error) {
                 this.error = error.toString()
             }

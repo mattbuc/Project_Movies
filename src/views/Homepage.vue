@@ -26,22 +26,21 @@ export default {
     methods: {
         async fetchData() {
     try {
-        const variables = {
-            page: 1,
-            itemsPerPage: 4,
-            title: '',
-        };
-        const response = await FilmService.getLastMovie(variables);
+        // const variables = {
+        //     page: 1,
+        //     itemsPerPage: 4,
+        //     title: '',
 
-        // Vérifiez s'il y a des erreurs dans la réponse GraphQL
-        if (response.errors) {
-            console.error("GraphQL Error Response:", response.errors);
-        } else if (response.data && response.data.movies && response.data.movies.collection) {
-            this.films = response.data.movies.collection;
-            console.log("GraphQL Response:", this.films);
-        } else {
-            console.error("GraphQL Response is missing expected structure:", response);
-        }
+        // };
+        const response = await FilmService.getLastMovie();
+        const response2 = await ActorService.getLastActor();
+                console.log(response);
+                console.log(response2);
+        this.films = response.data.movies.collection;
+        this.actors = response2.data.actors.collection;
+        console.log(this.films);
+        console.log(this.actors);
+
     } catch (error) {
         console.error("Error fetching data:", error);
     }
@@ -69,7 +68,7 @@ created(){
             <p>Voici les 4 derniers films de notre selection</p>
                         <br>
             <ul class="films">
-                <CardMovie v-for="film in films" :key="film.title" :film="film" />
+                <CardMovie v-for="film in films" :key="film.id" :film="film" />
             </ul>
         </div>
     </section>
@@ -80,7 +79,7 @@ created(){
             <p>Voici les 4 derniers acteurs de notre selection</p>
                         <br>
             <ul class="actors">
-                <CardActor v-for="actor in actors" :key="actors.lastname" :actor="actor" />
+                <CardActor v-for="actor in actors" :key="actors.id" :actor="actor" />
             </ul>
         </div>
     </section>

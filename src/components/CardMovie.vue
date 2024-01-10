@@ -2,14 +2,23 @@
 
 export default {
         props: ["film", "filmDetail"],
+        methods: {
+        getMediaContentUrl(mediaObject) {
+        // Assurez-vous que la propriété 'collection' existe et n'est pas vide
+        if (mediaObject && mediaObject.collection && mediaObject.collection.length > 0) {
+                    console.log("erreur : ",mediaObject.collection);
+            return "http://localhost:8088/WR506D/"+ mediaObject.collection[0].contentUrl;
 
+        }
+        },
+    },
 };
 
 </script>
 
 <template>
         <li class="film card">
-            <img class="poster" :src="film.mediaObject" />
+            <img class="poster" :src="getMediaContentUrl(film.mediaObject)" />
             <p class="title">
                 {{ film.title }}
                 <br>

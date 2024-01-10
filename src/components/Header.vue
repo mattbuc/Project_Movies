@@ -62,6 +62,7 @@ nav {
     overflow: hidden;
     height: 100vh;
     padding-right: 8%;
+    position: fixed;
 }
 
 ul {

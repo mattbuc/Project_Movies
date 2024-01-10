@@ -32,6 +32,7 @@ export default {
 main {
   padding-left: 5%;
   width: 100%;
+  margin-left: 12%;
 }
 
 </style>
