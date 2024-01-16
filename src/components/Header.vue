@@ -1,56 +1,5 @@
 <template>
-    <!-- <div v-if="!loggedIn">
-    <nav>
-        <ul>
-            <li>
-                <router-link to="/" class="link">Accueil</router-link>
-            </li>
-            <li>
-                <router-link to="/login" class="link">Se connecter</router-link>
-            </li>
-            <li>
-                <router-link to="/register" class="link">S'inscrire</router-link>
-            </li>
-            <li>
-                <router-link to="/movies" class="link">Films</router-link>
-            </li>
-            <li>
-                <router-link to="/actors" class="link">Acteurs</router-link>
-            </li>
-            <li>
-                <router-link to="/profil" class="link">Profil</router-link>
-            </li>
-        </ul>
-    </nav>
-    </div>
-    <div id="header" v-else>
-    <nav>
-        <ul>
-            <div class="link">Bonjour, <br> {{ user.email }}</div>
-            <li>
-                <router-link to="/" class="link">Accueil</router-link>
-            </li>
-            <li>
-                <router-link to="/login" class="link">Se connecter</router-link>
-            </li>
-            <li>
-                <router-link to="/register" class="link">S'inscrire</router-link>
-            </li>
-            <li>
-                <router-link to="/movies" class="link">Films</router-link>
-            </li>
-            <li>
-                <router-link to="/actors" class="link">Acteurs</router-link>
-            </li>
-            <li>
-                <router-link to="/profil" class="link">Profil</router-link>
-            </li>
-            <li>
-                <a @click="submitLogout" class="link">Se déconnecter</a>
-            </li>
-        </ul>
-    </nav>
-    </div> -->
+
     <div class="wrapper d-flex align-items-stretch">
 			<nav id="sidebar">
 				<div class="custom-menu">
@@ -81,7 +30,7 @@
         <div id="header" v-else>
         <div class="img bg-wrap text-center py-4" style="background-image;">
 	  			<div class="user-logo">
-	  				<div class="img" style="background-image;"></div>
+	  				<img class="img" style="background-image;" :src="getPicture()" alt="Image de profil">
 	  				<h3>{{ user.email }}</h3>
 	  			</div>
 	  		</div>
@@ -130,7 +79,11 @@ export default {
               this.logout()
              this.$router.push("login")
           },
-          ...mapActions(useSession, ["logout"])
+
+          getPicture(picture) {
+                  return "http://localhost:8088/WR506D//uploads//" + this.user.picture;
+              },
+          ...mapActions(useSession, ["logout"]),
       },
       computed: {
           ...mapState(useSession, ["loggedIn", "user"])

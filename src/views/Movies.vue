@@ -1,11 +1,15 @@
 <script>
-import Film from '../components/CardMovie.vue';
+import { onMounted } from 'vue';
+import { watch } from 'vue';
+import CardMovie from '../components/CardMovie.vue';
 import FilmService from '../services/FilmService.js';
+import BottomNavBar from "@/components/BottomNavBar.vue";
 
 export default {
 
     components: {
-        Film
+        CardMovie,
+        BottomNavBar,
     },
     data() {
         return {
@@ -23,15 +27,29 @@ export default {
         this.$refs.boutonSearch.focus();
     },
     methods: {
-        async searchFilms() {
-            try {
-                this.films = await FilmService.getMovie(this.query);
-            } catch (error) {
-                console.log(this.films);
-                console.error(error);
-            }
-        }
+        async allMovies() {
+    try {
+        const response = await FilmService.getMovie();
+        this.films = response.data.movies.collection;
+        console.log(this.films);
+        console.log(this.response);
+
+    } catch (error) {
+        console.error("Error fetching data:", error);
     }
+        },
+        // async searchFilms() {
+        //     try {
+        //         this.films = await FilmService.getSearchMovie(this.query);
+        //     } catch (error) {
+        //         console.log(this.films);
+        //         console.error(error);
+        //     }
+        // }
+    },
+created(){
+    this.allMovies();
+},
 }
 
 </script>
@@ -45,8 +63,9 @@ export default {
         <h2>Nombre de films trouvés pour <strong>{{ query }}</strong></h2>
         <ul class="films">
             <!-- Utilisez la boucle v-for pour afficher chaque film en utilisant le composant Film -->
-            <Film v-for="film in films" :key="film.title" :film="film" />
+            <CardMovie v-for="film in films" :key="film.id" :film="film" />
         </ul>
+        <bottom-nav-bar />
     </div>
 </template>
   

@@ -26,6 +26,7 @@ export default {
                 session.login({
                      user: {
                             email: response.user.email,
+                            picture: response.user.picture,
                      }, 
                      token: response.token 
                      });

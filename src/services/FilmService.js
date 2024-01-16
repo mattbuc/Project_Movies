@@ -64,10 +64,14 @@ export default {
     })
   },
 
-  getMovie(title) {
+  getMovie() {
     const query = `
     query movies{
-      movies{
+      movies(page:1, itemsPerPage: 10){
+        paginationInfo {
+          itemsPerPage
+          totalCount
+        }
         collection{
           id
           title
@@ -99,5 +103,12 @@ export default {
         }
       }
     }`;
+
+    return api('/graphql', { // Replace '/graphql' with your actual GraphQL endpoint
+      method: 'POST',
+      body: JSON.stringify({
+        query,
+      })
+    })
   }
 }
