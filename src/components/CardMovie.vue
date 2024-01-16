@@ -6,7 +6,6 @@ export default {
         getMediaContentUrl(mediaObject) {
         // Assurez-vous que la propriété 'collection' existe et n'est pas vide
         if (mediaObject && mediaObject.collection && mediaObject.collection.length > 0) {
-                    console.log("erreur : ",mediaObject.collection);
             return "http://localhost:8088/WR506D/"+ mediaObject.collection[0].contentUrl;
 
         }

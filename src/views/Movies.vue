@@ -25,7 +25,7 @@ export default {
     methods: {
         async searchFilms() {
             try {
-                this.films = await FilmService.search(this.query);
+                this.films = await FilmService.getMovie(this.query);
             } catch (error) {
                 console.log(this.films);
                 console.error(error);
@@ -42,10 +42,10 @@ export default {
             <label for="search">Rechercher :</label>
             <input @input="searchFilms" id="search" type="text" ref="boutonSearch" v-model="query">
         </form>
-        <h2>Nombre de films trouvés pour <strong>{{ query }}</strong> : {{ films.length }}</h2>
+        <h2>Nombre de films trouvés pour <strong>{{ query }}</strong></h2>
         <ul class="films">
             <!-- Utilisez la boucle v-for pour afficher chaque film en utilisant le composant Film -->
-            <Film v-for="film in films.slice(0, 50)" :key="film.title" :film="film" />
+            <Film v-for="film in films" :key="film.title" :film="film" />
         </ul>
     </div>
 </template>

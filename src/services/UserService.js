@@ -13,7 +13,7 @@ export default {
       body: JSON.stringify(credentials)
     })
   },
-  user() {
-    return api('/users')
-  }
+  // user() {
+  //   return api('/users')
+  // }
 }

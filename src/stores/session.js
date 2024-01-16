@@ -4,7 +4,9 @@ export const useSession = defineStore('session', {
   persist: true,
   state: () => {
     return {
-      user: null,
+      user: {
+        email: null
+      },
       loggedIn: false,
       token: null
     }
@@ -17,6 +19,7 @@ export const useSession = defineStore('session', {
         this.token = token
         return true
       }
+
       return false
     },
     logout() {

@@ -62,5 +62,42 @@ export default {
         query,
       })
     })
+  },
+
+  getMovie(title) {
+    const query = `
+    query movies{
+      movies{
+        collection{
+          id
+          title
+          releaseDate
+          description
+          duration
+          note
+          entries
+          budget
+          director
+          website
+          categories{
+            collection{
+              name
+            }
+          }
+          mediaObject{
+            collection{
+                contentUrl
+            }
+          }
+          actor{
+            collection{
+              id
+              lastname
+              firstname
+            }
+          }
+        }
+      }
+    }`;
   }
 }

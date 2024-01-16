@@ -23,7 +23,7 @@ const router = createRouter({
       component: Homepage,
     },
     {
-      path: '/movie',
+      path: '/movies',
       name: 'Movies',
       component: Movies,
     },
@@ -72,7 +72,7 @@ router.beforeEach(async (to, from) => {
     session.loggedIn &&
     to.name === 'Login'
   ) {
-    return { name: 'Movies' }
+    return { name: 'Homepage' }
   }
 
 })
