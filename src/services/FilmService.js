@@ -64,12 +64,13 @@ export default {
     })
   },
 
-  getMovie() {
+  getMovies() {
     const query = `
     query movies{
       movies(page:1, itemsPerPage: 10){
         paginationInfo {
           itemsPerPage
+          lastPage
           totalCount
         }
         collection{
@@ -110,5 +111,5 @@ export default {
         query,
       })
     })
-  }
+  },
 }
