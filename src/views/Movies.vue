@@ -49,10 +49,10 @@ export default {
                 try {
                     const response = await FilmService.getMovies(variables)
                     
-                    this.movies = response.data.movies.collection
+                    this.films = response.data.movies.collection
                     this.lastPage = response.data.movies.paginationInfo.lastPage
                     this.totalCount = response.data.movies.paginationInfo.totalCount 
-                    console.log(this.movies)
+                    console.log(this.films)
                 } catch (error) {
                     this.error = error.toString()
                     console.log(this.error)
@@ -74,12 +74,10 @@ export default {
 <template>
     <div id="search-film">
         <SearchBar @updatedSearch="search" :totalCount="totalCount"></SearchBar>
-        <RouterLink :to="{ name: 'Film', params: { id: film.id }}" v-for="film in films">
         <ul class="films">
             <!-- Utilisez la boucle v-for pour afficher chaque film en utilisant le composant Film -->
-            <CardMovie :key="film.id" :film="film" />
+            <CardMovie :key="film.id" :film="film" v-for="film in films" />
         </ul>
-        </RouterLink>
         <!-- <bottom-nav-bar /> -->
     </div>
 </template>

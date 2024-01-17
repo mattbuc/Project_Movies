@@ -1,21 +1,85 @@
-<template>
-    <div>
-        <h1>{{ message }}</h1>
-    </div>
-</template>
-
 <script>
+import { onMounted } from 'vue';
+import { watch } from 'vue';
+import CardActor from '../components/CardActor.vue';
+import ActorService from '../services/ActorService.js';
+import BottomNavBar from "@/components/BottomNavBar.vue";
+import SearchBar from "@/components/SearchBar.vue";
+
 export default {
-    data() {
-        return {
-            message: "Acteur"
-        };
-    }
-};
+
+    components: {
+        CardActor,
+        BottomNavBar,
+        SearchBar
+    },
+    data(){
+            return {
+                actors: [],
+                variables: 
+                {
+                    // page: parseInt(this.$route.query.page) || 1,
+                    // itemsPerPage: 10,
+                    title: '',
+                    
+                    orderBy: "id",
+                },
+                lastPage: null,
+                totalCount: null,
+
+                loading: false,
+                props: actor => ({ actor, actorDetail: true }),
+            }
+        },
+    mounted() {
+        this.getActors(this.variables)
+        },
+    watch: {
+            '$route.query.page'(newPage) {
+                this.variables.page = parseInt(newPage) || 1
+                this.getActors(this.variables)
+            },
+        },
+    methods: {
+            async getActors(variables) {
+                this.error = null
+
+                this.loading = true
+                console.log("Le chargement commence...")
+
+                try {
+                    const response = await ActorService.getActors(variables)
+                    
+                    this.actors = response.data.actors.collection
+                    this.lastPage = response.data.actors.paginationInfo.lastPage
+                    this.totalCount = response.data.actors.paginationInfo.totalCount 
+                    console.log(this.actors)
+                } catch (error) {
+                    this.error = error.toString()
+                    console.log(this.error)
+                } finally {
+                    this.loading = false
+                    console.log("Le chargement est terminé.")
+                    console.log("---------------------------")
+                }
+            },
+            search(newSearchTerm) {
+                this.variables.lastname = newSearchTerm
+                this.getActors(this.variables)
+            },
+        },
+}
+
 </script>
 
-<style scoped>
-h1 {
-    color: blue;
-}
-</style>
+<template>
+    <div id="search-actor">
+        <SearchBar @updatedSearch="search" :totalCount="totalCount"></SearchBar>
+        <ul class="actors">
+            <!-- Utilisez la boucle v-for pour afficher chaque actor en utilisant le composant Actor -->
+            <CardActor v-for="actor in actors" :key="actor._id" :actor="actor" />
+        </ul>
+        <!-- <bottom-nav-bar /> -->
+    </div>
+</template>
+  

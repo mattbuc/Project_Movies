@@ -64,10 +64,10 @@ export default {
     })
   },
 
-  getMovies() {
+  getMovies(variables) {
     const query = `
-    query movies{
-      movies(page:1, itemsPerPage: 10){
+    query movies($title: String){
+      movies(page:1, itemsPerPage: 10, title: $title){
         paginationInfo {
           itemsPerPage
           lastPage
@@ -109,6 +109,7 @@ export default {
       method: 'POST',
       body: JSON.stringify({
         query,
+        variables
       })
     })
   },

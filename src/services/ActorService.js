@@ -52,5 +52,47 @@ export default {
         query,
       })
     })
-  }
+  },
+
+  getActors(variables) {
+    const query = `
+    query actors($lastname: String, $firstname: String){
+      actors(page:1, itemsPerPage: 10, lastname: $lastname, firstname: $firstname) {
+        paginationInfo {
+          itemsPerPage
+          lastPage
+          totalCount
+        }
+        collection{
+          id
+          _id
+          lastname
+          firstname
+          dob
+          movies{
+            collection{
+              id
+              title
+            }
+          }
+          reward
+          nationality
+          mediaObject{
+            collection{
+              contentUrl
+            }
+          }
+          createdAt
+        }
+      }
+    }
+    `;
+    return api('/graphql', { // Replace '/graphql' with your actual GraphQL endpoint
+      method: 'POST',
+      body: JSON.stringify({
+        query,
+        variables
+      })
+    })
+  },
 };

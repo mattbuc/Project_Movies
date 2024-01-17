@@ -1,7 +1,7 @@
 <script>
 
 export default {
-        props: ["actor", "actorDetail"],
+        props: ["actor"],
         methods: {
         getMediaContentUrl(mediaObject) {
         // Assurez-vous que la propriété 'collection' existe et n'est pas vide
@@ -24,15 +24,14 @@ export default {
                 <br>
             </p>
             <dl>
-                <dt v-if="actorDetail">Films</dt>
-                <dd v-if="actorDetail">{{ actorDetail.actor.movies.title }}</dd>
+                <dt>Films</dt>
+                <dd>{{ actor.movies.collection.movie_id }}</dd>
                 <dt>Récompense</dt>
                 <dd>{{ actor.reward }}</dd>
-                <dt v-if="actorDetail">Actors</dt>
-                <dd v-if="actorDetail"></dd>
-        </dl>
 
-    </li>
+            </dl>
+            <router-link :to="{ name: 'TheActor', params: { id: actor._id } }">Details</router-link>
+        </li>
     <br>
 </template>
 
