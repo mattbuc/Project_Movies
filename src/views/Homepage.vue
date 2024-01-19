@@ -79,7 +79,7 @@ created(){
             <p>Voici les 4 derniers acteurs de notre selection</p>
                         <br>
             <ul class="actors">
-                <CardActor v-for="actor in actors" :key="actors.id" :actor="actor" />
+                <CardActor v-for="actor in actors" :key="actors._id" :actor="actor" />
             </ul>
         </div>
     </section>

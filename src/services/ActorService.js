@@ -25,6 +25,7 @@ export default {
         }
         collection{
           id
+          _id
           lastname
           firstname
           dob
@@ -92,6 +93,43 @@ export default {
       body: JSON.stringify({
         query,
         variables
+      })
+    })
+  },
+
+  getActorById() {
+    const query = `
+    query actor(id: number){
+      actor(id: $id) {
+        collection{
+          id
+          _id
+          lastname
+          firstname
+          dob
+          movies{
+            collection{
+              id
+              title
+            }
+          }
+          reward
+          nationality
+          mediaObject{
+            collection{
+              contentUrl
+            }
+          }
+          createdAt
+        }
+      }
+    }
+    `;
+    return api('/graphql', { // Replace '/graphql' with your actual GraphQL endpoint
+      method: 'POST',
+      body: JSON.stringify({
+        query,
+        variables: { id }
       })
     })
   },
