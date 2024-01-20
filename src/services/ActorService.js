@@ -17,7 +17,7 @@ export default {
   getLastActor() {
     const query = `
     query actors{
-      actors(itemsPerPage: 4, order: {id: "DESC"}) {
+      actors(itemsPerPage: 4, order: {id: "DESC"} {
         paginationInfo {
           itemsPerPage
           lastPage
@@ -97,33 +97,30 @@ export default {
     })
   },
 
-  getActorById() {
+  getActorById(id) {
     const query = `
-    query actor(id: number){
-      actor(id: $id) {
-        collection{
-          id
-          _id
-          lastname
-          firstname
-          dob
-          movies{
-            collection{
-              id
-              title
+    query actor($id: ID!){
+      actor(id: $id){
+      id
+      lastname
+      firstname
+      dob
+            movies{
+              collection{
+                id
+                title
+              }
             }
-          }
-          reward
-          nationality
-          mediaObject{
-            collection{
-              contentUrl
+            reward
+            nationality
+            mediaObject{
+              collection{
+                contentUrl
+              }
             }
+            createdAt
           }
-          createdAt
         }
-      }
-    }
     `;
     return api('/graphql', { // Replace '/graphql' with your actual GraphQL endpoint
       method: 'POST',

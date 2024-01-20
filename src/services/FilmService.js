@@ -75,6 +75,7 @@ export default {
         }
         collection{
           id
+          _id
           title
           releaseDate
           description
@@ -110,6 +111,49 @@ export default {
       body: JSON.stringify({
         query,
         variables
+      })
+    })
+  },
+
+  getMovieById(id) {
+    const query = `
+    query movie($id: ID!){
+      movie(id: $id){
+          id
+          title
+          releaseDate
+          description
+          duration
+          note
+          entries
+          budget
+          director
+          website
+          categories{
+            collection{
+              name
+            }
+          }
+          mediaObject{
+            collection{
+              contentUrl
+            }
+          }
+          actor{
+            collection{
+              id
+              lastname
+              firstname
+            }
+          }
+        }
+      }`;
+
+    return api('/graphql', { // Replace '/graphql' with your actual GraphQL endpoint
+      method: 'POST',
+      body: JSON.stringify({
+        query,
+        variables: { id }
       })
     })
   },

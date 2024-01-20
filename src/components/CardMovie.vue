@@ -23,17 +23,13 @@ export default {
                 <br>
             </p>
             <dl>
-                <dt v-if="filmDetail">Release date</dt>
-                <dd v-if="filmDetail">{{ filmDetail.release_date }}</dd>
+                <dt>Release date</dt>
+                <dd >{{ film.releaseDate }}</dd>
                 <dt>Director</dt>
                 <dd>{{ film.director }}</dd>
-                <dt v-if="filmDetail">Actors</dt>
-                <dd v-if="filmDetail"></dd>
-        </dl>
-        <p class="plot">
-            {{ film.plot }}
-        </p>
 
+        </dl>
+        <router-link :to="{ name: 'TheMovie', params: { id: film._id } }">Details</router-link>
     </li>
     <br>
 </template>
