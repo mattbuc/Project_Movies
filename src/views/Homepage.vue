@@ -68,7 +68,7 @@ created(){
             <p>Voici les 4 derniers films de notre selection</p>
                         <br>
             <ul class="films">
-                <CardMovie v-for="film in films" :key="film.id" :film="film" />
+                <CardMovie v-for="film in films" :key="film._id" :film="film" />
             </ul>
         </div>
     </section>
@@ -79,7 +79,7 @@ created(){
             <p>Voici les 4 derniers acteurs de notre selection</p>
                         <br>
             <ul class="actors">
-                <CardActor v-for="actor in actors" :key="actors._id" :actor="actor" />
+                <CardActor v-for="actor in actors" :key="actor._id" :actor="actor" />
             </ul>
         </div>
     </section>

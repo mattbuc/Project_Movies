@@ -8,22 +8,22 @@
         <div v-if="!loggedIn">
         <ul class="list-unstyled components mb-5">
           <li class="active">
-            <router-link to="/"><span class="fa fa-home mr-3"></span> Accueil</router-link>
+            <a @click="goToHome"><span class="fa fa-home mr-3"></span> Accueil</a>
           </li>
           <li>
-              <router-link to="/login"><span class="fa fa-download mr-3"></span> Se connecter</router-link>
+              <a @click="goToLogin"><span class="fa fa-download mr-3"></span> Se connecter</a>
           </li>
           <li>
-            <router-link to="/register"><span class="fa fa-gift mr-3"></span> S'inscrire</router-link>
+            <a @click="goToRegister"><span class="fa fa-gift mr-3"></span> S'inscrire</a>
           </li>
           <li>
-            <router-link to="/movies"><span class="fa fa-trophy mr-3"></span> Films</router-link>
+            <a @click="goToMovies"><span class="fa fa-trophy mr-3"></span> Films</a>
           </li>
           <li>
-            <router-link to="/actors"><span class="fa fa-cog mr-3"></span> Acteurs</router-link>
+            <a @click="goToActors"><span class="fa fa-cog mr-3"></span> Acteurs</a>
           </li>
           <li>
-            <router-link to="/profil"><span class="fa fa-support mr-3"></span> Profil</router-link>
+            <a @click="goToProfil"><span class="fa fa-support mr-3"></span> Profil</a>
           </li>
         </ul>
         </div>
@@ -36,19 +36,19 @@
 	  		</div>
         <ul class="list-unstyled components mb-5">
           <li class="active">
-            <router-link to="/"><span class="fa fa-home mr-3"></span> Accueil</router-link>
+            <a @click="goToHome"><span class="fa fa-home mr-3"></span> Accueil</a>
           </li>
           <li>
-            <router-link to="/register"><span class="fa fa-gift mr-3"></span> S'inscrire</router-link>
+            <a @click="goToRegister"><span class="fa fa-gift mr-3"></span> S'inscrire</a>
           </li>
           <li>
-            <router-link to="/movies"><span class="fa fa-trophy mr-3"></span> Films</router-link>
+            <a @click="goToMovies"><span class="fa fa-trophy mr-3"></span> Films</a>
           </li>
           <li>
-            <router-link to="/actors"><span class="fa fa-cog mr-3"></span> Acteurs</router-link>
+            <a @click="goToActors"><span class="fa fa-cog mr-3"></span> Acteurs</a>
           </li>
           <li>
-            <router-link to="/profil"><span class="fa fa-support mr-3"></span> Profil</router-link>
+            <a @click="goToProfil"><span class="fa fa-support mr-3"></span> Profil</a>
           </li>
           <li>
             <a @click="submitLogout"><span class="fa fa-sign-out mr-3"></span> Se déconnecter</a>
@@ -84,6 +84,24 @@ export default {
                   return "http://localhost:8088/WR506D//uploads//" + this.user.picture;
               },
           ...mapActions(useSession, ["logout"]),
+          goToHome() {
+              this.$router.push({ name: 'Home' });
+          },
+          goToRegister() {
+              this.$router.push({ name: 'Register' });
+          },
+          goToLogin() {
+              this.$router.push({ name: 'Login' });
+          },
+          goToMovies() {
+              this.$router.push({ name: 'Movies' });
+          },
+          goToActors() {
+              this.$router.push({ name: 'Actors' });
+          },
+          goToProfil() {
+              this.$router.push({ name: 'Profil' });
+          },
       },
       computed: {
           ...mapState(useSession, ["loggedIn", "user"])

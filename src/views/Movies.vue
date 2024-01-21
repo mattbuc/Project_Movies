@@ -3,31 +3,34 @@ import { onMounted } from 'vue';
 import { watch } from 'vue';
 import CardMovie from '../components/CardMovie.vue';
 import FilmService from '../services/FilmService.js';
-import BottomNavBar from "@/components/BottomNavBar.vue";
+import PaginationBar from "@/components/PaginationBar.vue";
 import SearchBar from "@/components/SearchBar.vue";
+import ActorModal from "@/components/ActorModal.vue";
 
 export default {
 
     components: {
         CardMovie,
-        BottomNavBar,
-        SearchBar
+        PaginationBar,
+        SearchBar,
+        ActorModal,
     },
     data(){
             return {
                 films: [],
                 variables: 
                 {
-                    // page: parseInt(this.$route.query.page) || 1,
-                    // itemsPerPage: 10,
-                    title: '',
+                    page: parseInt(this.$route.query.page) || 1,
+                    itemsPerPage: 4,
+                    
                     
                     orderBy: "id",
                 },
-                lastPage: null,
+                lastPage: 0,
                 totalCount: null,
 
-                loading: false
+                loading: false,
+                props: movie => ({ movie, actorDetail: true }),
             }
         },
     mounted() {
@@ -48,7 +51,7 @@ export default {
 
                 try {
                     const response = await FilmService.getMovies(variables)
-                    
+                    console.log(response);
                     this.films = response.data.movies.collection
                     this.lastPage = response.data.movies.paginationInfo.lastPage
                     this.totalCount = response.data.movies.paginationInfo.totalCount 
@@ -66,6 +69,13 @@ export default {
                 this.variables.title = newSearchTerm
                 this.getMovies(this.variables)
             },
+            openActorModal() {
+                this.$refs.actorModal.openModal();
+            },
+            updatePage(page) {
+                this.variables.page = page;
+                this.getMovies(this.variables);
+            },
         },
 }
 
@@ -73,12 +83,21 @@ export default {
 
 <template>
     <div id="search-film">
+        <br>
+                <h1>Films</h1>
         <SearchBar @updatedSearch="search" :totalCount="totalCount"></SearchBar>
+        <button @click="openActorModal">Ouvrir la modale</button>
+        <ActorModal ref="actorModal" />
         <ul class="films">
             <!-- Utilisez la boucle v-for pour afficher chaque film en utilisant le composant Film -->
             <CardMovie :key="film.id" :film="film" v-for="film in films" />
         </ul>
-        <!-- <bottom-nav-bar /> -->
+        <PaginationBar
+      :current-page="variables.page"
+      :last-page="lastPage"
+      @update-page="updatePage"
+    ></PaginationBar>
+    <div v-if="loading" class="loading-indicator">Loading...</div>
     </div>
 </template>
   

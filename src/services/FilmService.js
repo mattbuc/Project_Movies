@@ -25,6 +25,7 @@ export default {
         }
         collection{
           id
+          _id
           title
           releaseDate
           description
@@ -66,8 +67,8 @@ export default {
 
   getMovies(variables) {
     const query = `
-    query movies($title: String){
-      movies(page:1, itemsPerPage: 10, title: $title){
+    query movies($title: String, $page: Int, $itemsPerPage: Int){
+      movies(page: $page, itemsPerPage: $itemsPerPage, title: $title){
         paginationInfo {
           itemsPerPage
           lastPage

@@ -17,7 +17,7 @@ export default {
   getLastActor() {
     const query = `
     query actors{
-      actors(itemsPerPage: 4, order: {id: "DESC"} {
+      actors(itemsPerPage: 4, order: {id: "DESC"}) {
         paginationInfo {
           itemsPerPage
           lastPage
@@ -57,8 +57,8 @@ export default {
 
   getActors(variables) {
     const query = `
-    query actors($lastname: String, $firstname: String){
-      actors(page:1, itemsPerPage: 10, lastname: $lastname, firstname: $firstname) {
+    query actors($lastname: String, $firstname: String, $page: Int, $itemsPerPage: Int){
+      actors(page: $page, itemsPerPage: $itemsPerPage, lastname: $lastname, firstname: $firstname) {
         paginationInfo {
           itemsPerPage
           lastPage
@@ -130,4 +130,46 @@ export default {
       })
     })
   },
-};
+
+  createActor(variables) {
+    const mutation = `
+    mutation createActor($lastname: String!, $firstname: String, $dob: String!,
+      $movies: [String], $reward: String, $nationality: String!, $mediaObject: [String]) {
+        createActor(input : {
+          lastname : $lastname,
+          firstname : $firstname,
+          dob : $dob,
+          movies : $movies,
+          reward : $reward,
+          nationality : $nationality,
+          mediaObject : $mediaObject
+        }){
+          actor{
+            id
+            lastname
+            firstname
+            dob
+            movies{
+              collection{
+                title
+              }
+            }
+            reward
+            nationality
+            mediaObject{
+              collection{
+                contentUrl
+              }
+            }
+          }
+        }
+      }`;
+    return api('/graphql', { // Replace '/graphql' with your actual GraphQL endpoint
+      method: 'POST',
+      body: JSON.stringify({
+        mutation,
+        variables
+      })
+    })
+  }
+}

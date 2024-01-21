@@ -3,14 +3,14 @@ import { onMounted } from 'vue';
 import { watch } from 'vue';
 import CardActor from '../components/CardActor.vue';
 import ActorService from '../services/ActorService.js';
-import BottomNavBar from "@/components/BottomNavBar.vue";
+import PaginationBar from "@/components/PaginationBar.vue";
 import SearchBar from "@/components/SearchBar.vue";
 
 export default {
 
     components: {
         CardActor,
-        BottomNavBar,
+        PaginationBar,
         SearchBar
     },
     data(){
@@ -18,15 +18,13 @@ export default {
                 actors: [],
                 variables: 
                 {
-                    // page: parseInt(this.$route.query.page) || 1,
-                    // itemsPerPage: 10,
-                    title: '',
-                    
+                   
                     orderBy: "id",
+                    page: parseInt(this.$route.query.page) || 1,
+                    itemsPerPage: 4,
                 },
-                lastPage: null,
+                lastPage: 0,
                 totalCount: null,
-
                 loading: false,
                 props: actor => ({ actor, actorDetail: true }),
             }
@@ -67,6 +65,10 @@ export default {
                 this.variables.lastname = newSearchTerm
                 this.getActors(this.variables)
             },
+            updatePage(page) {
+                this.variables.page = page;
+                this.getActors(this.variables);
+            },
         },
 }
 
@@ -79,7 +81,11 @@ export default {
             <!-- Utilisez la boucle v-for pour afficher chaque actor en utilisant le composant Actor -->
             <CardActor v-for="actor in actors" :key="actor._id" :actor="actor" />
         </ul>
-        <!-- <bottom-nav-bar /> -->
+        <PaginationBar
+      :current-page="variables.page"
+      :last-page="lastPage"
+      @update-page="updatePage"
+    ></PaginationBar>
     </div>
 </template>
   
