@@ -132,44 +132,40 @@ export default {
   },
 
   createActor(variables) {
+    const { lastname, firstname, dob, reward, nationality, movies } = variables;  // Destructuration des variables
     const mutation = `
-    mutation createActor($lastname: String!, $firstname: String, $dob: String!,
-      $movies: [String], $reward: String, $nationality: String!, $mediaObject: [String]) {
-        createActor(input : {
-          lastname : $lastname,
-          firstname : $firstname,
-          dob : $dob,
-          movies : $movies,
-          reward : $reward,
-          nationality : $nationality,
-          mediaObject : $mediaObject
-        }){
-          actor{
+      mutation createActor($lastname: String!, $firstname: String, $dob: String!, $reward: String, $nationality: String!, $movies: [String]) {
+        createActor(input: {
+          lastname: $lastname,
+          firstname: $firstname,
+          dob: $dob,
+          reward: $reward,
+          nationality: $nationality,
+          movies: $movies
+        }) {
+          actor {
             id
             lastname
             firstname
             dob
-            movies{
-              collection{
-                title
-              }
-            }
             reward
             nationality
-            mediaObject{
+            movies{
               collection{
-                contentUrl
+                id
+
               }
             }
           }
         }
       }`;
-    return api('/graphql', { // Replace '/graphql' with your actual GraphQL endpoint
+
+    return api('/graphql', {
       method: 'POST',
       body: JSON.stringify({
-        mutation,
-        variables
+        query: mutation,
+        variables: { lastname, firstname, dob, reward, nationality, movies }  // Utilisation des variables définies
       })
-    })
+    });
   }
 }

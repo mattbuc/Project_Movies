@@ -39,7 +39,7 @@
             <a @click="goToHome"><span class="fa fa-home mr-3"></span> Accueil</a>
           </li>
           <li>
-            <a @click="goToRegister"><span class="fa fa-gift mr-3"></span> S'inscrire</a>
+            <a @click="goToRegister"><span class="fa fa-gift mr-3"></span> Ajouter un compte</a>
           </li>
           <li>
             <a @click="goToMovies"><span class="fa fa-trophy mr-3"></span> Films</a>

@@ -5,17 +5,20 @@ import CardActor from '../components/CardActor.vue';
 import ActorService from '../services/ActorService.js';
 import PaginationBar from "@/components/PaginationBar.vue";
 import SearchBar from "@/components/SearchBar.vue";
+import ActorModal from "@/components/ActorModal.vue";
 
 export default {
 
     components: {
         CardActor,
         PaginationBar,
-        SearchBar
+        SearchBar,
+        ActorModal
     },
     data(){
             return {
                 actors: [],
+                movies: [],
                 variables: 
                 {
                    
@@ -65,6 +68,9 @@ export default {
                 this.variables.lastname = newSearchTerm
                 this.getActors(this.variables)
             },
+                openActorModal() {
+                this.$refs.actorModal.openModal();
+            },
             updatePage(page) {
                 this.variables.page = page;
                 this.getActors(this.variables);
@@ -77,6 +83,8 @@ export default {
 <template>
     <div id="search-actor">
         <SearchBar @updatedSearch="search" :totalCount="totalCount"></SearchBar>
+                <button @click="openActorModal">Ouvrir la modale</button>
+        <ActorModal ref="actorModal" />
         <ul class="actors">
             <!-- Utilisez la boucle v-for pour afficher chaque actor en utilisant le composant Actor -->
             <CardActor v-for="actor in actors" :key="actor._id" :actor="actor" />
