@@ -20,9 +20,9 @@ export default {
   },
   methods: {
     goToPage(page) {
-      if (page >= 1 && page <= this.lastPage) {
+      // if (page >= 1 && page <= this.lastPage) {
         this.$emit('update-page', page);
-      }
+      // }
     },
   },
 };

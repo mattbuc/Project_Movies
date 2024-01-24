@@ -23,6 +23,9 @@
             <a @click="goToActors"><span class="fa fa-cog mr-3"></span> Acteurs</a>
           </li>
           <li>
+            <a @click="goToCategories"><span class="fa fa-cog mr-3"></span> Categories</a>
+          </li>
+          <li>
             <a @click="goToProfil"><span class="fa fa-support mr-3"></span> Profil</a>
           </li>
         </ul>
@@ -46,6 +49,9 @@
           </li>
           <li>
             <a @click="goToActors"><span class="fa fa-cog mr-3"></span> Acteurs</a>
+          </li>
+          <li>
+            <a @click="goToCategories"><span class="fa fa-cog mr-3"></span> Categories</a>
           </li>
           <li>
             <a @click="goToProfil"><span class="fa fa-support mr-3"></span> Profil</a>
@@ -98,6 +104,9 @@ export default {
           },
           goToActors() {
               this.$router.push({ name: 'Actors' });
+          },
+          goToCategories() {
+              this.$router.push({ name: 'Categories' });
           },
           goToProfil() {
               this.$router.push({ name: 'Profil' });

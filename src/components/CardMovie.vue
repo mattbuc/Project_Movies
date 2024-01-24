@@ -38,16 +38,21 @@ export default {
     .film {
         display: inline-block;
         width: 300px;
+        height: 500px;
         margin: 10px;
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
         box-shadow: 0 0 5px #ccc;
+        align-items: center;
+    justify-content: center;
+    display: flex;
     }
 
     .film .poster {
-        width: 100%;
+        width: 60%;
         height: auto;
+        object-fit: cover;
     }
 
     .film .title {

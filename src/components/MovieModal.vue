@@ -2,38 +2,43 @@
   <teleport to="body">
     <div class="modal-overlay" v-if="isOpen" @click="closeModal">
       <div class="modal-container" @click.stop>
-        <h2>Créer un acteur</h2>
+        <h2>Créer un Film</h2>
         <form @submit.prevent="submitForm">
           
-          <label for="lastname">Nom:</label>
-          <input type="text" id="lastname" v-model="form.lastname" required>
+          <label for="title">Titre:</label>
+          <input type="text" id="lastname" v-model="form.title" required>
 
-          <label for="firstname">Prénom:</label>
-          <input type="text" id="firstname" v-model="form.firstname" required>
-
-          <br>
-
-          <label for="dob">Date de naissance:</label>
-          <input type="date" id="dob" v-model="form.dob" required>
+          <label for="release_date">Date de sortie:</label>
+          <input type="text" id="release_date" v-model="form.release_date" required>
 
           <br>
 
-          <label for="reward">Récompense:</label>
-          <select id="reward" v-model="form.reward" required>
-            Choisir une récompense
-            <option value="César">César</option>
-            <option value="Oscar">Oscar</option>
-            <option value="Palme d'or">Palme d'or</option>
-          </select>
+          <label for="desc">Synopsis:</label>
+          <input type="text" id="desc" v-model="form.description" required>
 
           <br>
 
-          <label for="nationality">Nationalité:</label>
-          <input type="text" id="nationality" v-model="form.nationality" required>
+          <label for="duration">Durée:</label>
+          <input type="text" id="duration" v-model="form.duration" required>
 
           <br>
 
-          <label for="movies">Films:</label>
+          <label for="note">Note:</label>
+          <input type="number" id="note" v-model="form.note" required>
+
+          <br>
+
+          <label for="entries">Entrée:</label>
+          <input type="number" id="entries" v-model="form.entries" required>
+
+          <br>
+
+          <label for="budget">Entrée:</label>
+          <input type="number" id="budget" v-model="form.entries" required>
+
+          <br>
+
+          <label for="notes">note:</label>
           <div v-for="movie in moviesOptions" :key="movie.id">
             <input
               type="checkbox"

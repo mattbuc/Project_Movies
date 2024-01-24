@@ -35,12 +35,12 @@ export default {
     mounted() {
         this.getActors(this.variables)
         },
-    watch: {
-            '$route.query.page'(newPage) {
-                this.variables.page = parseInt(newPage) || 1
-                this.getActors(this.variables)
-            },
-        },
+    // watch: {
+    //         '$route.query.page'(newPage) {
+    //             this.variables.page = parseInt(newPage) || 1
+    //             this.getActors(this.variables)
+    //         },
+    //     },
     methods: {
             async getActors(variables) {
                 this.error = null
@@ -76,11 +76,16 @@ export default {
                 this.getActors(this.variables);
             },
         },
+        changePage(page) {
+            this.variables.page = page;
+            this.getActors(this.variables);
+        }
 }
 
 </script>
 
 <template>
+<h2>Acteurs</h2>
     <div id="search-actor">
         <SearchBar @updatedSearch="search" :totalCount="totalCount"></SearchBar>
                 <button @click="openActorModal">Ouvrir la modale</button>

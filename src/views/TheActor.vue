@@ -2,9 +2,11 @@
     <div>
         <h1>Acteur</h1>
         <div class="actor-details">
+            <img class="poster" :src="getMediaContentUrl(actor.mediaObject)" />
             <h3>{{ actor.lastname }} {{ actor.firstname }}</h3>
             <p>Date de naissance : {{ actor.dob }}</p>
             <p>Nationalité : {{ actor.nationality }}</p>
+            <p>Récompense : {{ actor.reward }}</p>
             <p>Filmographie :</p>
             <ul>
                 <li v-for="movie in actor.movies.collection" :key="movie.id">{{ movie.title }}</li>
@@ -38,6 +40,13 @@ export default {
                 console.error("Error fetching data:", error);
             }
         },
+        getMediaContentUrl(mediaObject) {
+        // Assurez-vous que la propriété 'collection' existe et n'est pas vide
+        if (mediaObject && mediaObject.collection && mediaObject.collection.length > 0) {
+            return "http://localhost:8088/WR506D/"+ mediaObject.collection[0].contentUrl;
+
+        }
+        },
     },
     created() {
         this.fetchData();
@@ -52,6 +61,12 @@ export default {
     border: 1px solid #ccc;
     border-radius: 5px;
     width: 50%;
+}
+
+.poster{
+    width: 20%;
+    height: auto;
+
 }
 
 ul {
