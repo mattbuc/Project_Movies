@@ -191,24 +191,23 @@ export default {
         website
           actor{
             collection{
-            lastname
-            firstname
+            id
           }
         }
           categories{
             collection{
-            name
+            id
           }
         }
       }
     }
   }
-}`;
+`;
 
     return api('/graphql', { // Replace '/graphql' with your actual GraphQL endpoint
       method: 'POST',
       body: JSON.stringify({
-        mutation,
+        query: mutation,
         variables: { title, releaseDate, description, duration, note, entries, budget, director, website, actor, categories }
       })
     })

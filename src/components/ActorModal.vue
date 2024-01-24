@@ -34,7 +34,7 @@
           <br>
 
           <label for="movies">Films:</label>
-          <div v-for="movie in moviesOptions" :key="movie.id">
+          <div v-for="movie in moviesOptions" :key="movie.id" required>
             <input
               type="checkbox"
               :id="`movie-${movie.id}`"
@@ -178,6 +178,21 @@ export default {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-height: 80%;
+  overflow-y: auto;
+  
+  /* Utilisation d'une grille pour aligner les éléments du formulaire */
+  display: grid;
+  grid-template-columns: 1fr; /* Deux colonnes égales, ajustez selon vos besoins */
+  grid-gap: 10px; /* Espacement entre les éléments du formulaire */
+}
+
+/* Style pour aligner les labels avec les champs de formulaire */
+label {
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  padding-right: 10px; /* Espacement entre le label et le champ de formulaire */
 }
 
 

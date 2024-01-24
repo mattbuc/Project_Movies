@@ -5,8 +5,8 @@ export default {
 
     getCategories(variables) {
         const query = `
-        query Categories{
-            categories(page: 1){
+        query Categories($name: String, $page: Int, $itemsPerPage: Int){
+            categories(name: $name, page: $page, itemsPerPage: $itemsPerPage){
               paginationInfo {
                     itemsPerPage
                     lastPage
@@ -24,10 +24,9 @@ export default {
                     }
                 }
             }
-        }
-    }
 
 }`;
+
         return api('/graphql', { // Replace '/graphql' with your actual GraphQL endpoint
             method: 'POST',
             body: JSON.stringify({

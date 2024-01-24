@@ -17,12 +17,13 @@
           <br>
 
           <label for="desc">Synopsis:</label>
-          <input type="text" id="desc" v-model="form.description" required>
+          <br>
+          <textarea rows="5" cols="35" id="desc" v-model="form.description" required/>
 
           <br>
 
           <label for="duration">Durée (minute):</label>
-          <input type="numer" id="duration" v-model="form.duration" required>
+          <input type="number" id="duration" v-model="form.duration" required>
 
           <br>
 
@@ -36,7 +37,7 @@
 
           <br>
 
-                    <label for="entree">Entrée:</label>
+          <label for="entree">Entrée:</label>
           <input type="number" id="entree" v-model="form.entries" required>
 
           <br>
@@ -59,10 +60,12 @@
               :id="`actor-${actor.id}`"
               v-model="form.actors"
               :value="actor.id"
+              
             />
             <label :for="`actor-${actor.id}`">{{ actor.firstname }} {{ actor.lastname }}</label>
-            
+
           </div>
+                      <span v-if="!isAtLeastOneCheckboxCheckedActor">Sélectionnez au moins un acteur.</span>
                   <PaginationBar
               :current-page="variables_actors.page"
               :last-page="lastPage || 0"
@@ -78,10 +81,14 @@
               :id="`category-${category.id}`"
               v-model="form.categories"
               :value="category.id"
-            />
+             />
             <label :for="`category-${category.id}`">{{ category.name }}</label>
             
+
+
           </div>
+                    <span v-if="!isAtLeastOneCheckboxCheckedCategory">Sélectionnez une categorie.</span>
+                    <br>
           <!-- 
           <label for="mediaObject">Image:</label>
           <input type="image" id="mediaObject" v-model="form.mediaObject" required>
@@ -103,6 +110,7 @@
 import ActorService from '../services/ActorService.js';
 import FilmService from '../services/FilmService.js';
 import PaginationBar from "@/components/PaginationBar.vue";
+import CategoriesService from '../services/CategoriesService.js';
 
 export default {
   components: {
@@ -123,6 +131,8 @@ export default {
         actors: [],
         categories: [],
         website: '',
+        isAtLeastOneCheckboxCheckedActor: true,
+        isAtLeastOneCheckboxCheckedCategory: true,
         // mediaObject: '',
       },
       variables_actors: {
@@ -141,7 +151,6 @@ export default {
       categoriesOptions: [],
       lastPage: null,
       totalCount: null,
-
     };
   },
   methods: {
@@ -153,8 +162,13 @@ export default {
       this.isOpen = false;
     },
     async submitForm() {
+
+              this.isAtLeastOneCheckboxCheckedActor = this.form.actors.length > 0;
+              this.isAtLeastOneCheckboxCheckedCategory = this.form.categories.length > 0
+              if (this.isAtLeastOneCheckboxCheckedActor && this.isAtLeastOneCheckboxCheckedCategory) {
       try {
         // Appel à votre fonction de création d'acteur avec les données du formulaire
+
         const submitData = await FilmService.createMovie({
           title: this.form.title,
           releaseDate: this.form.releaseDate,
@@ -169,11 +183,19 @@ export default {
           website: this.form.website,
           // mediaObject: this.form.mediaObject,
         });
+        console.log('Formulaire soumis avec succès');
         this.isOpen = false;
-        console.log(submitData);
+        console.log('erreur : ', submitData);
       } catch (error) {
         console.error('Error creating actor:', error);
         this.error = 'Une erreur s\'est produite lors de la création de l\'acteur.';
+      }
+      console.log('Données du forumulaire : ', this.form);
+    }
+    else {
+        // Affichez un message d'erreur ou faites quelque chose d'autre pour indiquer à l'utilisateur
+        // qu'au moins une checkbox est requise.
+        console.log('Sélectionnez au moins un acteur');
       }
     },
     async loadActors() {
@@ -188,21 +210,46 @@ export default {
         this.actors = response.data.actors.collection;
         this.lastPage = response.data.actors.paginationInfo.lastPage;
         // Charger les options du formulaire à partir des données des films
-        this.actorsOptions = this.actors.map(actor => ({ id: actor.id, nom: actor.firstname, lastname: actor.lastname }));
+        this.actorsOptions = this.actors.map(actor => ({ id: actor.id, firstname: actor.firstname, lastname: actor.lastname }));
         console.log(this.actorsOptions);
       } catch (error) {
         console.error('Error loading actors:', error);
       }
     },
-  updatePage(page) {
-  this.variables_actors.page = page;
-  this.loadActors(this.variables);  // Charger les films avec la nouvelle page
-  console.log(this.variables_actors.page);
-  console.log(this.variables_actors);
-},
+    async loadCategories() {
+      try {
+        // Charger les données des films
+
+        const response = await CategoriesService.getCategories({
+          page: this.variables_categories.page,
+          itemsPerPage: this.variables_categories.itemsPerPage,
+        });
+        console.log(response);
+        this.categories = response.data.categories.collection;
+        this.lastPage = response.data.categories.paginationInfo.lastPage;
+        // Charger les options du formulaire à partir des données des films
+        this.categoriesOptions = this.categories.map(category => ({ id: category.id, name: category.name }));
+        console.log(this.categoriesOptions);
+      } catch (error) {
+        console.error('Error loading actors:', error);
+      }
+    },
+    updatePage(page) {
+    this.variables_actors.page = page;
+    this.loadActors(this.variables);  // Charger les films avec la nouvelle page
+    console.log(this.variables_actors.page);
+    console.log(this.variables_actors);
+  },
+  updatePageCategory(page) {
+    this.variables_categories.page = page;
+    this.loadCategories(this.variables);  // Charger les films avec la nouvelle page
+    console.log(this.variables_categories.page);
+    console.log(this.variables_categories);
+  },
   },
   created() {
   this.loadActors();
+  this.loadCategories();
 },
 }
 
@@ -226,6 +273,21 @@ export default {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-height: 80%;
+  overflow-y: auto;
+  
+  /* Utilisation d'une grille pour aligner les éléments du formulaire */
+  display: grid;
+  grid-template-columns: 1fr; /* Deux colonnes égales, ajustez selon vos besoins */
+  grid-gap: 10px; /* Espacement entre les éléments du formulaire */
+}
+
+/* Style pour aligner les labels avec les champs de formulaire */
+label {
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  padding-right: 10px; /* Espacement entre le label et le champ de formulaire */
 }
 
 
