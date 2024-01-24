@@ -1,3 +1,4 @@
+
 <template>
   <teleport to="body">
     <div class="modal-overlay" v-if="isOpen" @click="closeModal">
@@ -6,10 +7,12 @@
         <form @submit.prevent="submitForm">
           
           <label for="title">Titre:</label>
-          <input type="text" id="lastname" v-model="form.title" required>
+          <input type="text" id="title" v-model="form.title" required>
+
+          <br>
 
           <label for="release_date">Date de sortie:</label>
-          <input type="text" id="release_date" v-model="form.release_date" required>
+          <input type="date" id="release_date" v-model="form.releaseDate" required>
 
           <br>
 
@@ -18,44 +21,67 @@
 
           <br>
 
-          <label for="duration">Durée:</label>
-          <input type="text" id="duration" v-model="form.duration" required>
+          <label for="duration">Durée (minute):</label>
+          <input type="numer" id="duration" v-model="form.duration" required>
 
           <br>
 
           <label for="note">Note:</label>
-          <input type="number" id="note" v-model="form.note" required>
+          <input type="number" id="note" v-model="form.note" min=0 max=10 required>
 
           <br>
 
-          <label for="entries">Entrée:</label>
-          <input type="number" id="entries" v-model="form.entries" required>
+          <label for="budget">Budget:</label>
+          <input type="number" id="budget" v-model="form.budget" required>
 
           <br>
 
-          <label for="budget">Entrée:</label>
-          <input type="number" id="budget" v-model="form.entries" required>
+                    <label for="entree">Entrée:</label>
+          <input type="number" id="entree" v-model="form.entries" required>
 
           <br>
 
-          <label for="notes">note:</label>
-          <div v-for="movie in moviesOptions" :key="movie.id">
+          <label for="director">Réalisateur:</label>
+          <input type="text" id="director" v-model="form.director" required>
+
+          <br>
+
+          <label for="website">Site internet  :</label>
+          <input type="url" id="website" v-model="form.website" required>
+
+          <br>
+
+
+          <label for="actors">Acteurs:</label>
+          <div v-for="actor in actorsOptions" :key="actor.id">
             <input
               type="checkbox"
-              :id="`movie-${movie.id}`"
-              v-model="form.movies"
-              :value="movie.id"
+              :id="`actor-${actor.id}`"
+              v-model="form.actors"
+              :value="actor.id"
             />
-            <label :for="`movie-${movie.id}`">{{ movie.title }}</label>
+            <label :for="`actor-${actor.id}`">{{ actor.firstname }} {{ actor.lastname }}</label>
             
           </div>
                   <PaginationBar
-              :current-page="variables_movies.page"
+              :current-page="variables_actors.page"
               :last-page="lastPage || 0"
               @update-page="updatePage"
             ></PaginationBar>
 
           <br>
+
+          <label for="catergories">Genre:</label>
+          <div v-for="category in categoriesOptions" :key="category.id">
+            <input
+              type="checkbox"
+              :id="`category-${category.id}`"
+              v-model="form.categories"
+              :value="category.id"
+            />
+            <label :for="`category-${category.id}`">{{ category.name }}</label>
+            
+          </div>
           <!-- 
           <label for="mediaObject">Image:</label>
           <input type="image" id="mediaObject" v-model="form.mediaObject" required>
@@ -86,21 +112,33 @@ export default {
     return {
       isOpen: false,
       form: {
-        lastname: '',
-        firstname: '',
-        dob: '',
-        movies: [],
-        reward: '',
-        nationality: '',
+        title: '',
+        releaseDate: '',
+        description: '',
+        duration: '',
+        note: '',
+        entries: '',
+        budget: '',
+        director: '',
+        actors: [],
+        categories: [],
+        website: '',
         // mediaObject: '',
       },
-      variables_movies: {
+      variables_actors: {
         page: 1,
         itemsPerPage: 5,
-        title: '',
+        firstname: '',
       },
-      movies: [],
-      moviesOptions: [],
+      variables_categories: {
+        page: 1,
+        itemsPerPage: 5,
+        name: '',
+      },
+      actors: [],
+      actorsOptions: [],
+      categories: [],
+      categoriesOptions: [],
       lastPage: null,
       totalCount: null,
 
@@ -109,7 +147,7 @@ export default {
   methods: {
     openModal() {
       this.isOpen = true;
-      this.loadMovies();
+      // this.loadActors();
     },
     closeModal() {
       this.isOpen = false;
@@ -117,13 +155,18 @@ export default {
     async submitForm() {
       try {
         // Appel à votre fonction de création d'acteur avec les données du formulaire
-        const submitData = await ActorService.createActor({
-          firstname: this.form.firstname,
-          lastname: this.form.lastname,
-          dob: this.form.dob,
-          movies: this.form.movies,
-          reward: this.form.reward,
-          nationality: this.form.nationality,
+        const submitData = await FilmService.createMovie({
+          title: this.form.title,
+          releaseDate: this.form.releaseDate,
+          description: this.form.description,
+          duration: this.form.duration,
+          note: this.form.note,
+          entries: this.form.entries,
+          budget: this.form.budget,
+          director: this.form.director,
+          actor: this.form.actor,
+          categories: this.form.categories,
+          website: this.form.website,
           // mediaObject: this.form.mediaObject,
         });
         this.isOpen = false;
@@ -133,33 +176,33 @@ export default {
         this.error = 'Une erreur s\'est produite lors de la création de l\'acteur.';
       }
     },
-    async loadMovies() {
+    async loadActors() {
       try {
         // Charger les données des films
 
-        const response = await FilmService.getMovies({
-          page: this.variables_movies.page,
-          itemsPerPage: this.variables_movies.itemsPerPage,
+        const response = await ActorService.getActors({
+          page: this.variables_actors.page,
+          itemsPerPage: this.variables_actors.itemsPerPage,
         });
         console.log(response);
-        this.movies = response.data.movies.collection;
-        this.lastPage = response.data.movies.paginationInfo.lastPage;
+        this.actors = response.data.actors.collection;
+        this.lastPage = response.data.actors.paginationInfo.lastPage;
         // Charger les options du formulaire à partir des données des films
-        this.moviesOptions = this.movies.map(movie => ({ id: movie.id, title: movie.title }));
-        console.log(this.moviesOptions);
+        this.actorsOptions = this.actors.map(actor => ({ id: actor.id, nom: actor.firstname, lastname: actor.lastname }));
+        console.log(this.actorsOptions);
       } catch (error) {
-        console.error('Error loading movies:', error);
+        console.error('Error loading actors:', error);
       }
     },
   updatePage(page) {
-  this.variables_movies.page = page;
-  this.loadMovies(this.variables);  // Charger les films avec la nouvelle page
-  console.log(this.variables_movies.page);
-  console.log(this.variables_movies);
+  this.variables_actors.page = page;
+  this.loadActors(this.variables);  // Charger les films avec la nouvelle page
+  console.log(this.variables_actors.page);
+  console.log(this.variables_actors);
 },
   },
   created() {
-  this.loadMovies();
+  this.loadActors();
 },
 }
 

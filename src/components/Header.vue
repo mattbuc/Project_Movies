@@ -62,7 +62,7 @@
         </ul>
             
         </div>
-            	</nav>
+      </nav>
 		</div>
 </template>
 

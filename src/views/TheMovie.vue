@@ -38,6 +38,9 @@ export default {
         <div class="actor-details">
             <h3>{{ movie.title }}</h3>
             <p>Sortie le : {{ movie.releaseDate }}</p>
+            <p>Note : {{ movie.note }}</p>
+            <p>Durée : {{ movie.duration }}</p>
+            <p>Genre : {{ movie.categories.collection[0].name }}</p>
             <p>Synopsis : {{ movie.description }}</p>
             <p>Site web: {{ movie.website }}</p>
             <p>Acteur :</p>

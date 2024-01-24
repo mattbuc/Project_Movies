@@ -158,4 +158,59 @@ export default {
       })
     })
   },
+
+  createMovie(variables) {
+    const { title, releaseDate, description, duration, note, entries, budget, director, website, actor, categories } = variables;  // Destructuration des variables
+    const mutation = `
+  mutation createMovie($title: String!, $releaseDate: String,
+    $description: String!, $duration: Int, $note: Float, $entries: Int,
+    $budget: Int, $director: String!, $website: String, $actor: [String], $categories: [String]) {
+    createMovie(input : {
+      title: $title,
+      releaseDate: $releaseDate,
+      description: $description,
+      duration: $duration,
+      note: $note,
+      entries: $entries,
+      budget: $budget,
+      director: $director,
+      website: $website,
+      actor: $actor,
+      categories: $categories,
+    }){
+        movie{
+        id
+        title
+        releaseDate
+        description
+        duration
+        note
+        entries
+        budget
+        director
+        website
+          actor{
+            collection{
+            lastname
+            firstname
+          }
+        }
+          categories{
+            collection{
+            name
+          }
+        }
+      }
+    }
+  }
+}`;
+
+    return api('/graphql', { // Replace '/graphql' with your actual GraphQL endpoint
+      method: 'POST',
+      body: JSON.stringify({
+        mutation,
+        variables: { title, releaseDate, description, duration, note, entries, budget, director, website, actor, categories }
+      })
+    })
+  },
 }

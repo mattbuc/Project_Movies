@@ -5,6 +5,7 @@ import CardMovie from '../components/CardMovie.vue';
 import FilmService from '../services/FilmService.js';
 import PaginationBar from "@/components/PaginationBar.vue";
 import SearchBar from "@/components/SearchBar.vue";
+import MovieModal from "@/components/MovieModal.vue";
 
 
 export default {
@@ -13,6 +14,7 @@ export default {
         CardMovie,
         PaginationBar,
         SearchBar,
+        MovieModal
     },
     data(){
             return {
@@ -68,6 +70,10 @@ export default {
                 this.variables.title = newSearchTerm
                 this.getMovies(this.variables)
             },
+            openMovieModal() {
+                this.$refs.movieModal.openModal();
+                console.log("Ouverture de la modale")
+            },
             updatePage(page) {
                 this.variables.page = page;
                 this.getMovies(this.variables);
@@ -80,8 +86,10 @@ export default {
 <template>
     <div id="search-film">
         <br>
-                <h1>Films</h1>
+        <h1>Films</h1>
         <SearchBar @updatedSearch="search" :totalCount="totalCount"></SearchBar>
+        <button @click="openMovieModal">Ouvrir la modale</button>
+         <MovieModal ref="movieModal"/> 
         <ul class="films">
             <!-- Utilisez la boucle v-for pour afficher chaque film en utilisant le composant Film -->
             <CardMovie :key="film.id" :film="film" v-for="film in films" />
