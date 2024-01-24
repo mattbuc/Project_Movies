@@ -9,13 +9,12 @@ export default {
 </script>
 
 <template>
-                  <div class="test">
-                    <Header/>   
-                    <main>                 
-                    <router-view />
-                    </main>
-                  </div>
-                      
+    <div class="test">
+      <Header/>   
+      <main>                 
+      <router-view />
+      </main>
+    </div>                  
 </template>
 
 <style>
@@ -32,6 +31,7 @@ export default {
 main {
   padding-left: 5%;
   width: 100%;
+  margin-left: 20%;
 }
 
 </style>

@@ -1,7 +1,16 @@
 <script>
 
 export default {
-        props: ["actor", "actorDetail"],
+        props: ["actor"],
+        methods: {
+        getMediaContentUrl(mediaObject) {
+        // Assurez-vous que la propriété 'collection' existe et n'est pas vide
+        if (mediaObject && mediaObject.collection && mediaObject.collection.length > 0) {
+            return "http://localhost:8088/WR506D/"+ mediaObject.collection[0].contentUrl;
+
+        }
+        },
+    },
 
 };
 
@@ -9,20 +18,20 @@ export default {
 
 <template>
         <li class="actor card">
+        <img class="poster" :src="getMediaContentUrl(actor.mediaObject)" />
             <p class="name">
-                {{ actor.firstname }}{{ actor.lastname }}
+                {{ actor.firstname }} {{ actor.lastname }}
                 <br>
             </p>
             <dl>
-                <dt v-if="actorDetail">Films</dt>
-                <dd v-if="actorDetail">{{ actorDetail.actor.movies.title }}</dd>
+                <dt>Films</dt>
+                <dd>{{ actor.movies.collection.movie_id }}</dd>
                 <dt>Récompense</dt>
                 <dd>{{ actor.reward }}</dd>
-                <dt v-if="actorDetail">Actors</dt>
-                <dd v-if="actorDetail"></dd>
-        </dl>
 
-    </li>
+            </dl>
+            <router-link :to="{ name: 'TheActor', params: { id: actor._id } }">Details</router-link>
+        </li>
     <br>
 </template>
 
@@ -30,11 +39,22 @@ export default {
     .actor {
         display: inline-block;
         width: 300px;
+        height: 500px;
         margin: 10px;
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
         box-shadow: 0 0 5px #ccc;
+        align-items: center;
+    justify-content: center;
+    display: flex;
+    }
+
+        .actor .poster {
+        width: 60%;
+        height: auto;
+        object-fit: cover;
+
     }
 
     .actor .name {

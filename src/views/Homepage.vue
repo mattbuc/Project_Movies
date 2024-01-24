@@ -25,24 +25,31 @@ export default {
     },
     methods: {
         async fetchData() {
-            try {
-                const responseMovie = await FilmService.getAll(1, 8);
-                const responseActor = await ActorService.getAll(1, 8);
-                this.films = responseMovie["hydra:member"].slice(0, 4);
-                this.actors = responseActor["hydra:member"].slice(0, 4);
-                console.log("API Response:", this.films);
-            } catch (error) {
-                console.log(this.films);
-                console.error("Error fetching data:", error);
-            }
-        }
-    },
-    created() {
-        this.fetchData();
-        console.log("Films:", this.films);
-        console.log("Actors:", this.actors);
-    }
+    try {
+        // const variables = {
+        //     page: 1,
+        //     itemsPerPage: 4,
+        //     title: '',
 
+        // };
+        const response = await FilmService.getLastMovie();
+        const response2 = await ActorService.getLastActor();
+                console.log(response);
+                console.log(response2);
+        this.films = response.data.movies.collection;
+        this.actors = response2.data.actors.collection;
+        console.log(this.films);
+        console.log(this.actors);
+
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+}
+
+},
+created(){
+    this.fetchData();
+},
 }
 
 </script>
@@ -61,7 +68,7 @@ export default {
             <p>Voici les 4 derniers films de notre selection</p>
                         <br>
             <ul class="films">
-                <CardMovie v-for="film in films" :key="film.title" :film="film" />
+                <CardMovie v-for="film in films" :key="film._id" :film="film" />
             </ul>
         </div>
     </section>
@@ -72,7 +79,7 @@ export default {
             <p>Voici les 4 derniers acteurs de notre selection</p>
                         <br>
             <ul class="actors">
-                <CardActor v-for="actor in actors" :key="actors.lastname" :actor="actor" />
+                <CardActor v-for="actor in actors" :key="actor._id" :actor="actor" />
             </ul>
         </div>
     </section>
