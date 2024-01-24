@@ -2,7 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useSession } from '../stores/session';
 import Homepage from '../views/Homepage.vue'
 import Movies from '../views/Movies.vue'
+import TheMovie from '../views/TheMovie.vue'
 import Actors from '../views/Actors.vue'
+import TheActor from '../views/TheActor.vue'
 import Categories from '../views/Categories.vue'
 import LoginForm from '../views/LoginForm.vue'
 import RegisterForm from '../views/RegisterForm.vue'
@@ -15,7 +17,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: 'Home'
+      redirect: 'Home',
     },
     {
       path: '/home',
@@ -23,14 +25,24 @@ const router = createRouter({
       component: Homepage,
     },
     {
-      path: '/movie',
+      path: '/movies',
       name: 'Movies',
       component: Movies,
+    },
+    {
+      path: '/movie/:id',
+      name: 'TheMovie',
+      component: TheMovie,
     },
     {
       path: '/actors',
       name: 'Actors',
       component: Actors,
+    },
+    {
+      path: '/actor/:id',
+      name: 'TheActor',
+      component: TheActor,
     },
     {
       path: '/categories',
@@ -72,7 +84,7 @@ router.beforeEach(async (to, from) => {
     session.loggedIn &&
     to.name === 'Login'
   ) {
-    return { name: 'Movies' }
+    return { name: 'Homepage' }
   }
 
 })

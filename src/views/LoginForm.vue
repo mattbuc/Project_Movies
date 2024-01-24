@@ -9,7 +9,7 @@ export default {
     data() {
         return {
             title: 'Authentification',
-            error: ''
+            error: '',
         }
     },
 
@@ -17,15 +17,28 @@ export default {
         async login() {
             this.error = null;
             try {
-                const response = await UserService.login({ username: this.email, password: this.password })
+                const response = await UserService.login({ 
+                    username: this.email, 
+                    password: this.password })
+                    console.log(response);
                 const session = useSession();
-                session.login({ user: response.user, token: response.token });
-                this.$router.push('/movie')
+
+                session.login({
+                     user: {
+                            email: response.user.email,
+                            picture: response.user.picture,
+                     }, 
+                     token: response.token 
+                     });
+                this.$router.push('/')
             } catch (error) {
                 this.error = error.toString()
             }
         }
-    }
+    },
+    computed: {
+        ...mapState(useSession, ['loggedIn'])
+    },
 }
 </script>
 
