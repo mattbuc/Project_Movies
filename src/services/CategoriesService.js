@@ -34,6 +34,28 @@ export default {
                 variables
             })
         })
+    },
+
+    createCategory(variables) {
+        const { name } = variables;  // Destructuration des variables
+        const mutation = `
+        mutation createCategory ($name : String! ){
+            createCategory(input: {
+                name : $name
+            }){
+            category{
+                name
+            }
+            }
+        }`;
+
+        return api('/graphql', {
+            method: 'POST',
+            body: JSON.stringify({
+                query: mutation,
+                variables: { name }  // Utilisation des variables définies
+            })
+        });
     }
 
 }

@@ -44,11 +44,7 @@
             <label :for="`movie-${movie.id}`">{{ movie.title }}</label>
             
           </div>
-                  <PaginationBar
-              :current-page="variables_movies.page"
-              :last-page="lastPage || 0"
-              @update-page="updatePage"
-            ></PaginationBar>
+
 
           <br>
           <!-- 
@@ -60,6 +56,12 @@
 
           <button type="submit">Créer</button>
         </form>
+
+            <PaginationBar 
+              :current-page="variables_movies.page"
+              :last-page="lastPage || 0"
+              @update-page="updatePage"
+            ></PaginationBar>
 
         <button @click="closeModal">Fermer</button>
       </div>
@@ -193,6 +195,12 @@ label {
   width: 100%;
   text-align: left;
   padding-right: 10px; /* Espacement entre le label et le champ de formulaire */
+}
+
+.test{
+  justify-content: center;
+  display: flex;
+  align-items: baseline;
 }
 
 
