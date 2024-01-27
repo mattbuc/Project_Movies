@@ -52,9 +52,21 @@
 
           <br>
 
+          <label for="catergories">Genre:</label>
+          <div class="test" v-for="category in categoriesOptions" :key="category.id">
+            <input
+              type="checkbox"
+              :id="`category-${category.id}`"
+              v-model="form.categories"
+              :value="category.id"
+             />
+            <label style="margin-left:10%"  :for="`category-${category.id}`">{{ category.name }}</label>
+          </div>
+
+          <br>
 
           <label for="actors">Acteurs:</label>
-          <div v-for="actor in actorsOptions" :key="actor.id">
+          <div class="test" v-for="actor in actorsOptions" :key="actor.id">
             <input
               type="checkbox"
               :id="`actor-${actor.id}`"
@@ -62,33 +74,12 @@
               :value="actor.id"
               
             />
-            <label :for="`actor-${actor.id}`">{{ actor.firstname }} {{ actor.lastname }}</label>
+            <label style="margin-left:10%"  :for="`actor-${actor.id}`">{{ actor.firstname }} {{ actor.lastname }}</label>
 
           </div>
-                      <span v-if="!isAtLeastOneCheckboxCheckedActor">Sélectionnez au moins un acteur.</span>
-                  <PaginationBar
-              :current-page="variables_actors.page"
-              :last-page="lastPage || 0"
-              @update-page="updatePage"
-            ></PaginationBar>
-
+                
           <br>
-
-          <label for="catergories">Genre:</label>
-          <div v-for="category in categoriesOptions" :key="category.id">
-            <input
-              type="checkbox"
-              :id="`category-${category.id}`"
-              v-model="form.categories"
-              :value="category.id"
-             />
-            <label :for="`category-${category.id}`">{{ category.name }}</label>
-            
-
-
-          </div>
-                    <span v-if="!isAtLeastOneCheckboxCheckedCategory">Sélectionnez une categorie.</span>
-                    <br>
+      
           <!-- 
           <label for="mediaObject">Image:</label>
           <input type="image" id="mediaObject" v-model="form.mediaObject" required>
@@ -98,6 +89,12 @@
 
           <button type="submit">Créer</button>
         </form>
+
+        <PaginationBar
+              :current-page="variables_actors.page"
+              :last-page="lastPage || 0"
+              @update-page="updatePage"
+            ></PaginationBar>
 
         <button @click="closeModal">Fermer</button>
       </div>
@@ -131,8 +128,6 @@ export default {
         actors: [],
         categories: [],
         website: '',
-        isAtLeastOneCheckboxCheckedActor: true,
-        isAtLeastOneCheckboxCheckedCategory: true,
         // mediaObject: '',
       },
       variables_actors: {
@@ -163,9 +158,6 @@ export default {
     },
     async submitForm() {
 
-              this.isAtLeastOneCheckboxCheckedActor = this.form.actors.length > 0;
-              this.isAtLeastOneCheckboxCheckedCategory = this.form.categories.length > 0
-              if (this.isAtLeastOneCheckboxCheckedActor && this.isAtLeastOneCheckboxCheckedCategory) {
       try {
         // Appel à votre fonction de création d'acteur avec les données du formulaire
 
@@ -183,6 +175,7 @@ export default {
           website: this.form.website,
           // mediaObject: this.form.mediaObject,
         });
+
         console.log('Formulaire soumis avec succès');
         this.isOpen = false;
         console.log('erreur : ', submitData);
@@ -191,13 +184,8 @@ export default {
         this.error = 'Une erreur s\'est produite lors de la création de l\'acteur.';
       }
       console.log('Données du forumulaire : ', this.form);
-    }
-    else {
-        // Affichez un message d'erreur ou faites quelque chose d'autre pour indiquer à l'utilisateur
-        // qu'au moins une checkbox est requise.
-        console.log('Sélectionnez au moins un acteur');
-      }
     },
+
     async loadActors() {
       try {
         // Charger les données des films
@@ -288,6 +276,12 @@ label {
   width: 100%;
   text-align: left;
   padding-right: 10px; /* Espacement entre le label et le champ de formulaire */
+}
+
+.test{
+  justify-content: center;
+  display: flex;
+  align-items: baseline;
 }
 
 
